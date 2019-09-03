@@ -111,15 +111,22 @@ public class NormalKeyBoardActivity extends AppCompatActivity {
                 String amount = textAmount.getText().toString().trim();
                 amount = amount + valueList.get(position).get("name");
 
-                textAmount.setText(amount);
+                int index = amount.indexOf('.');
 
-                Editable ea = textAmount.getText();
-                textAmount.setSelection(ea.length());
+                // 只允许输入小数点后两位（"xxx.12" < 4），此处反转条件。
+                if (-1 == index || amount.length() - amount.indexOf('.') < 4)
+                {
+                    textAmount.setText(amount);
+
+                    Editable ea = textAmount.getText();
+                    textAmount.setSelection(ea.length());
+                }
+
             } else {
 
-                if (position == 9) {      //点击退格键
+                if (position == 9) {      //点击小数点
                     String amount = textAmount.getText().toString().trim();
-                    if (!amount.contains(".")) {
+                    if (!amount.contains(".") && amount.length() > 0) {
                         amount = amount + valueList.get(position).get("name");
                         textAmount.setText(amount);
 
